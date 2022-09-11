@@ -1,5 +1,6 @@
 package client.module;
 
+import client.Client;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
@@ -31,11 +32,13 @@ public abstract class Module {
     }
 
     public void enable() {
+        Client.INSTANCE.getEventManager().resumeSubscription(this);
         this.state = true;
         this.onEnable();
     }
 
     public void disable() {
+        Client.INSTANCE.getEventManager().suspendSubscription(this);
         this.state = false;
         this.onDisable();
     }
@@ -54,5 +57,21 @@ public abstract class Module {
 
     public List<Setting> getSettings() {
         return this.settings;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
+    public int getKeybind() {
+        return this.keybind;
+    }
+
+    public void setKeybind(int keybind) {
+        this.keybind = keybind;
     }
 }

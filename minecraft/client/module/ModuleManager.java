@@ -2,6 +2,8 @@ package client.module;
 
 import client.Client;
 import client.event.Event;
+import client.event.Subscriber;
+import client.event.impl.KeyEvent;
 import client.module.visual.HUD;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
@@ -56,5 +58,14 @@ public class ModuleManager {
                     return setting;
                 })
                 .collect(Collectors.toList()));
+    }
+
+    @Subscriber
+    public void onKey(KeyEvent e) {
+        for (Module module : moduleHashmap.values()) {
+            if (module.getKeybind() == e.key) {
+                module.toggle();
+            }
+        }
     }
 }
