@@ -24,8 +24,10 @@ public class CommandManager {
         if (!e.message.startsWith(prefix)) return;
 
         for (Command command : commands) {
-            if (!e.message.toLowerCase().startsWith(prefix + command.name)) return;
-            command.run(e.message.split("\\+s"));
+            final String first = prefix + command.name;
+
+            if(e.message.toLowerCase().startsWith(first.toLowerCase()))
+                command.run(e.message.substring(Math.min(e.message.length(), first.length() + 1)).split(" "));
             break;
         }
         e.cancel();

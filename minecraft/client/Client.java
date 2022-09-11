@@ -1,16 +1,11 @@
 package client;
 
+import client.command.CommandManager;
 import client.event.EventManager;
-import client.event.impl.Render2DEvent;
 import client.file.FileHandler;
-import client.file.config.Config;
 import client.file.config.ConfigManager;
 import client.module.ModuleManager;
-import client.module.move.Sprint;
-import client.module.visual.HUD;
-import com.google.gson.GsonBuilder;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.Sys;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +19,8 @@ public class Client {
 
     private ConfigManager configManager;
 
+    private CommandManager commandManager;
+
     private final String clientName = "Client";
 
     private final File clientDir = new File(Minecraft.getMinecraft().mcDataDir, clientName);
@@ -36,9 +33,19 @@ public class Client {
 
     public void start() {
         try {
-            this.moduleManager = new ModuleManager();
+            if(!clientDir.exists())
+                if(!clientDir.mkdir())
+                    throw new IllegalStateException("Couldn't create client directory");
+
             this.eventManager = new EventManager();
+            this.moduleManager = new ModuleManager();
             this.configManager = new ConfigManager();
+            this.commandManager = new CommandManager();
+
+            moduleManager.init();
+            eventManager.registerSubscription(commandManager);
+
+            configManager.save("test");
 
             fileHandlers.add(configManager);
 

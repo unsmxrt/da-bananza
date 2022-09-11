@@ -1,12 +1,10 @@
 package client.module;
 
 import client.Client;
-import client.event.Event;
 import client.event.Subscriber;
 import client.event.impl.KeyEvent;
 import client.module.visual.HUD;
 import client.setting.Setting;
-import net.minecraft.client.Minecraft;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -26,7 +24,8 @@ public class ModuleManager {
         initModule(HUD.class);
     }
 
-    public <T> T getModule(Class<? extends Module> moduleClass) {
+    @SuppressWarnings("unchecked")
+    public <T extends Module> T getModule(Class<? extends Module> moduleClass) {
         return (T) moduleHashmap.get(moduleClass);
     }
 
@@ -49,9 +48,9 @@ public class ModuleManager {
         modInst.getSettings().addAll(Arrays.stream(moduleClass.getDeclaredFields())
                 .filter((field -> Setting.class.isAssignableFrom(field.getType())))
                 .map(field -> {
-                    Setting setting = null;
+                    Setting<?> setting = null;
                     try {
-                        setting = (Setting) field.get(modInst);
+                        setting = (Setting<?>) field.get(modInst);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -63,7 +62,7 @@ public class ModuleManager {
     @Subscriber
     public void onKey(KeyEvent e) {
         for (Module module : moduleHashmap.values()) {
-            if (module.getKeybind() == e.key) {
+            if (module.getKeyBinding() == e.key) {
                 module.toggle();
             }
         }
