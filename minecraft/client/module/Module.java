@@ -1,8 +1,10 @@
 package client.module;
 
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 public abstract class Module {
+    protected static final Minecraft mc = Minecraft.getMinecraft();
     private String name, displayName;
     private int keybind;
     private Category category;

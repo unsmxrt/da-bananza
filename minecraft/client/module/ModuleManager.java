@@ -1,12 +1,14 @@
 package client.module;
 
 import client.module.visual.HUD;
+import net.minecraft.client.Minecraft;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 
 public class ModuleManager {
+
     private final HashMap<Class<? extends Module>, Module> moduleHashmap = new HashMap<>();
 
     public ModuleManager() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
