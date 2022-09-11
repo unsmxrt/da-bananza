@@ -16,6 +16,7 @@ public class EventSubscription {
         this.method = method;
         this.methodOwner = methodOwner;
         this.isPersistent = isPersistent;
+        this.isActive = true;
     }
 
     public boolean isActive() {
