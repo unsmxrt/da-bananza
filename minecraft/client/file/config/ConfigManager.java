@@ -41,6 +41,7 @@ public class ConfigManager implements FileHandler {
                 ioException.printStackTrace();
             }
         }
+        load("default", false, true);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class ConfigManager implements FileHandler {
         for (Config config : configs) {
             save(config.getName());
         }
+        save("default");
     }
 
     public boolean load(String name, boolean ignoreRender, boolean applyKeybindings) {
@@ -81,8 +83,10 @@ public class ConfigManager implements FileHandler {
     }
 
     public boolean save(String name) {
-        if(configs.stream().filter(config -> config.getName().equalsIgnoreCase(name)).findFirst().orElse(null) != null) {
-            return false; //todo print that this config already exists
+        Config other;
+
+        if((other = configs.stream().filter(config -> config.getName().equalsIgnoreCase(name)).findFirst().orElse(null)) != null) {
+            configs.remove(other);
         }
 
         final Config config = new Config(name, null);
