@@ -1,5 +1,6 @@
 package client.module;
 
+import client.Client;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
@@ -12,8 +13,10 @@ public abstract class Module {
     private final List<Setting<?>> settings = new ArrayList<>();
     private String name, displayName;
     private int keyBinding;
-    private Category category;
-    private boolean state = false;
+    private final Category category;
+    private boolean state;
+
+    private boolean registeredSubscription;
 
     public Module(String name, Category category) {
         this.name = name;
@@ -22,11 +25,19 @@ public abstract class Module {
     }
 
     public void toggle() {
+        this.state = !this.state;
         if (this.state) {
-            this.disable();
+            this.onEnable();
+            if(!registeredSubscription) {
+                Client.INSTANCE.getEventManager().registerSubscription(this);
+                registeredSubscription = true;
+            } else {
+                Client.INSTANCE.getEventManager().resumeSubscription(this);
+            }
         }
         else {
-            this.enable();
+            this.onDisable();
+            Client.INSTANCE.getEventManager().suspendSubscription(this);
         }
     }
 
@@ -35,21 +46,11 @@ public abstract class Module {
             toggle();
     }
 
-    public void enable() {
-        this.state = true;
-        this.onEnable();
-    }
-
-    public void disable() {
-        this.state = false;
-        this.onDisable();
-    }
-
-    public void onEnable() {
+    protected void onEnable() {
 
     }
 
-    public void onDisable() {
+    protected void onDisable() {
 
     }
 

@@ -15,7 +15,7 @@ public class Sprint extends Module {
     }
 
     @Override
-    public void onEnable() {
+    protected void onEnable() {
         ClientUtil.chatMsg("size " + getSettings().size());
     }
 
