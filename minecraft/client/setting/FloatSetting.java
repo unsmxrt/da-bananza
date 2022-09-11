@@ -5,11 +5,10 @@ import net.minecraft.util.MathHelper;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class IntSetting extends Setting<Integer> {
+public class FloatSetting extends Setting<Float> {
+    private float increment, min, max;
 
-    private final int increment, min, max;
-
-    public IntSetting(String name, int value, int increment, int min, int max) {
+    public FloatSetting(String name, float value, float increment, float min, float max) {
         super(name);
         this.value = value;
         this.increment = increment;
@@ -18,33 +17,33 @@ public class IntSetting extends Setting<Integer> {
     }
 
     @Override
-    public IntSetting showIf(Supplier<Boolean> supplier) {
+    public FloatSetting showIf(Supplier<Boolean> supplier) {
         this.visibilitySupplier = supplier;
         return this;
     }
 
     @Override
-    public IntSetting onChange(Function<Integer, Integer> listener) {
+    public FloatSetting onChange(Function<Float, Float> listener) {
         this.changeListener = listener;
         return this;
     }
 
     @Override
-    public void set(Integer value) {
+    public void set(Float value) {
         if(changeListener != null)
-            this.value = MathHelper.clamp_int(changeListener.apply(value), min, max);
-        else this.value = MathHelper.clamp_int(value, min, max);
+            this.value = MathHelper.clamp_float(changeListener.apply(value), min, max);
+        else this.value = MathHelper.clamp_float(value, min, max);
     }
 
-    public int getIncrement() {
+    public float getIncrement() {
         return increment;
     }
 
-    public int getMin() {
+    public float getMin() {
         return min;
     }
 
-    public int getMax() {
+    public float getMax() {
         return max;
     }
 }
