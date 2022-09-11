@@ -1,4 +1,6 @@
 package client.event.impl;
 
-public class Render2DEvent {
+import client.event.Event;
+
+public class Render2DEvent extends Event {
 }
