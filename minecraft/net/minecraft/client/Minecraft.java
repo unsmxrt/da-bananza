@@ -1,5 +1,6 @@
 package net.minecraft.client;
 
+import client.Client;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -558,6 +559,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
         this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
         this.checkGLError("Post startup");
+        Client.INSTANCE.start();
         this.ingameGUI = new GuiIngame(this);
 
         if (this.serverName != null)
