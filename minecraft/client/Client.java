@@ -9,6 +9,7 @@ public class Client {
 
     private ModuleManager moduleManager;
     private EventManager eventManager;
+    private String clientName;
 
     private Client() {
 
@@ -25,5 +26,13 @@ public class Client {
 
     public ModuleManager getModuleManager() {
         return this.moduleManager;
+    }
+
+    public EventManager getEventManager() {
+        return this.eventManager;
+    }
+
+    public String getClientName() {
+        return this.clientName;
     }
 }
