@@ -24,6 +24,7 @@ public class ModuleManager {
     }
 
     public void init() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Client.INSTANCE.getEventManager().registerSubscription(this);
         initModule(HUD.class);
         initModule(Sprint.class);
     }

@@ -6,7 +6,7 @@ import net.minecraft.util.ChatComponentText;
 public class ClientUtil extends Util {
 
     public static void chatMsg(String message) {
-        mc.thePlayer.addChatMessage(new ChatComponentText(message));
+        mc.thePlayer.addChatMessage(new ChatComponentText("[" + Client.INSTANCE.getClientName() + "] " + message));
     }
 
     public static void log(String message) {
