@@ -3,6 +3,7 @@ package client.module;
 import client.Client;
 import client.event.Subscriber;
 import client.event.impl.KeyEvent;
+import client.module.move.Sprint;
 import client.module.visual.HUD;
 import client.setting.Setting;
 
@@ -21,12 +22,21 @@ public class ModuleManager {
     }
 
     public void init() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Client.INSTANCE.getEventManager().registerSubscription(this);
         initModule(HUD.class);
+        initModule(Sprint.class);
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Module> T getModule(Class<? extends Module> moduleClass) {
         return (T) moduleHashmap.get(moduleClass);
+    }
+
+    public <T> T getModuleByName(String name) {
+        for (Module module : moduleHashmap.values()) {
+            if (module.getName().equalsIgnoreCase(name)) return (T) module;
+        }
+        return null;
     }
 
     public Collection<Module> getModules() {
@@ -39,6 +49,7 @@ public class ModuleManager {
         moduleHashmap.put(moduleClass, modInst);
 
         Client.INSTANCE.getEventManager().registerSubscription(modInst);
+        Client.INSTANCE.getEventManager().suspendSubscription(modInst);
         addFields(moduleClass, modInst);
     }
 

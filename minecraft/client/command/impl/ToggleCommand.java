@@ -15,7 +15,7 @@ public class ToggleCommand extends Command {
         if (args.length != 2) return;
 
         for (Module module : Client.INSTANCE.getModuleManager().getModules()) {
-            if (!module.getName().equalsIgnoreCase(args[1])) return;
+            if (!module.getName().equalsIgnoreCase(args[1])) continue;
             module.toggle();
             break;
         }
