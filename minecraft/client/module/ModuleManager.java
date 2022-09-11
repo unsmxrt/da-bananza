@@ -1,5 +1,6 @@
 package client.module;
 
+import client.module.move.Sprint;
 import client.module.visual.HUD;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
@@ -16,9 +17,11 @@ public class ModuleManager {
 
     public ModuleManager() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         initModule(HUD.class);
+        initModule(Sprint.class);
     }
 
-    public <T> T getModule(Class<? extends Module> moduleClass) {
+    @SuppressWarnings("unchecked")
+    public <T extends Module> T getModule(Class<? extends Module> moduleClass) {
         return (T) moduleHashmap.get(moduleClass);
     }
 
@@ -34,9 +37,10 @@ public class ModuleManager {
         modInst.getSettings().addAll(Arrays.stream(moduleClass.getDeclaredFields())
                 .filter((field -> Setting.class.isAssignableFrom(field.getType())))
                 .map(field -> {
-                    Setting setting = null;
+                    Setting<?> setting = null;
                     try {
-                        setting = (Setting) field.get(modInst);
+                        field.setAccessible(true);
+                        setting = (Setting<?>) field.get(modInst);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }

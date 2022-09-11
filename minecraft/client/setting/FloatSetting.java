@@ -1,5 +1,7 @@
 package client.setting;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.util.MathHelper;
 
 import java.util.function.Function;
@@ -45,5 +47,16 @@ public class FloatSetting extends Setting<Float> {
 
     public float getMax() {
         return max;
+    }
+
+    @Override
+    public void fromJson(JsonElement element) {
+        if(element.isJsonPrimitive())
+            set(element.getAsFloat());
+    }
+
+    @Override
+    public JsonElement toJson() {
+        return new JsonPrimitive(get());
     }
 }

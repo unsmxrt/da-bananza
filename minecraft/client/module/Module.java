@@ -4,21 +4,21 @@ import client.setting.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Module {
     protected static final Minecraft mc = Minecraft.getMinecraft();
-    private List<Setting> settings;
+    private final List<Setting<?>> settings = new ArrayList<>();
     private String name, displayName;
-    private int keybind;
+    private int keyBinding;
     private Category category;
     private boolean state = false;
 
-    protected Module(String name, Category category) {
+    public Module(String name, Category category) {
         this.name = name;
         this.displayName = name;
         this.category = category;
-        this.keybind = Keyboard.KEY_NONE;
     }
 
     public void toggle() {
@@ -28,6 +28,11 @@ public abstract class Module {
         else {
             this.enable();
         }
+    }
+
+    public void setState(boolean state) {
+        if(this.state != state)
+            toggle();
     }
 
     public void enable() {
@@ -48,11 +53,31 @@ public abstract class Module {
 
     }
 
+    public int getKeyBinding() {
+        return keyBinding;
+    }
+
+    public void bindTo(int key) {
+        this.keyBinding = key;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
     public boolean getState() {
         return this.state;
     }
 
-    public List<Setting> getSettings() {
+    public List<Setting<?>> getSettings() {
         return this.settings;
     }
 }

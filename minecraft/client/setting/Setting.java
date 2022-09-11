@@ -1,5 +1,7 @@
 package client.setting;
 
+import com.google.gson.JsonElement;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -17,6 +19,9 @@ public abstract class Setting<T> {
 
     public abstract Setting<T> showIf(Supplier<Boolean> supplier);
     public abstract Setting<T> onChange(Function<T, T> listener);
+
+    public abstract JsonElement toJson();
+    public abstract void fromJson(JsonElement element);
 
     public abstract void set(T value);
 

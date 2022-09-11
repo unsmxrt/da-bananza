@@ -1,5 +1,7 @@
 package client.setting;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.util.MathHelper;
 
 import java.util.function.Function;
@@ -46,5 +48,16 @@ public class IntSetting extends Setting<Integer> {
 
     public int getMax() {
         return max;
+    }
+
+    @Override
+    public void fromJson(JsonElement element) {
+        if(element.isJsonPrimitive())
+            set(element.getAsInt());
+    }
+
+    @Override
+    public JsonElement toJson() {
+        return new JsonPrimitive(get());
     }
 }

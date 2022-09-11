@@ -1,5 +1,7 @@
 package client.setting;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.util.MathHelper;
 
 import java.util.function.Function;
@@ -33,5 +35,16 @@ public class BooleanSetting extends Setting<Boolean> {
 
     public void toggle() {
         set(!this.value);
+    }
+
+    @Override
+    public void fromJson(JsonElement element) {
+        if(element.isJsonPrimitive())
+          set(element.getAsBoolean());
+    }
+
+    @Override
+    public JsonElement toJson() {
+        return new JsonPrimitive(get());
     }
 }
