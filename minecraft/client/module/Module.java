@@ -1,10 +1,14 @@
 package client.module;
 
+import client.setting.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
+import java.util.List;
+
 public abstract class Module {
     protected static final Minecraft mc = Minecraft.getMinecraft();
+    private List<Setting> settings;
     private String name, displayName;
     private int keybind;
     private Category category;
@@ -46,5 +50,9 @@ public abstract class Module {
 
     public boolean getState() {
         return this.state;
+    }
+
+    public List<Setting> getSettings() {
+        return this.settings;
     }
 }

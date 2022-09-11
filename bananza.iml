@@ -7,7 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="twitch-platform-6.5-natives-windows-64" level="project" />
-    <orderEntry type="library" name="1.8.8" level="project" />
+    <orderEntry type="library" name="libraryjavasound-20101123" level="project" />
   </component>
 </module>
