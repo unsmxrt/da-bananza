@@ -19,6 +19,7 @@ public class Client {
         try {
             this.moduleManager = new ModuleManager();
             this.eventManager = new EventManager();
+            moduleManager.init();
         } catch (Exception exception) {
             exception.printStackTrace();
         }

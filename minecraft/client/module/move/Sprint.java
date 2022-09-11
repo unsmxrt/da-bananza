@@ -1,5 +1,6 @@
 package client.module.move;
 
+import client.event.Subscriber;
 import client.event.impl.UpdatePlayerEvent;
 import client.module.Category;
 import client.module.Module;
@@ -9,6 +10,7 @@ public class Sprint extends Module {
         super("Sprint", Category.MOVE);
     }
 
+    @Subscriber
     public void onUpdate(UpdatePlayerEvent e) {
         if (e.isPost()) return;
         if (mc.thePlayer.isCollidedHorizontally) return;

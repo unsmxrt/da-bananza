@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import client.Client;
 import client.event.impl.Render2DEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -323,6 +324,7 @@ public class GuiIngame extends Gui
         }
 
         final Render2DEvent event = new Render2DEvent(partialTicks, scaledresolution);
+        Client.INSTANCE.getEventManager().fire(event);
 
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

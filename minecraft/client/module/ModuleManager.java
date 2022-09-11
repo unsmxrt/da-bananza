@@ -1,5 +1,7 @@
 package client.module;
 
+import client.Client;
+import client.event.Event;
 import client.module.visual.HUD;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
@@ -14,7 +16,11 @@ public class ModuleManager {
 
     private final HashMap<Class<? extends Module>, Module> moduleHashmap = new HashMap<>();
 
-    public ModuleManager() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public ModuleManager()  {
+
+    }
+
+    public void init() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         initModule(HUD.class);
     }
 
@@ -31,6 +37,13 @@ public class ModuleManager {
 
         moduleHashmap.put(moduleClass, modInst);
 
+        Client.INSTANCE.getEventManager().registerSubscription(modInst);
+        addFields(moduleClass, modInst);
+    }
+
+    private void addFields(Class<? extends Module> moduleClass, Module modInst) {
+        if (moduleClass.getDeclaredFields().length == 0) return;
+
         modInst.getSettings().addAll(Arrays.stream(moduleClass.getDeclaredFields())
                 .filter((field -> Setting.class.isAssignableFrom(field.getType())))
                 .map(field -> {
@@ -43,6 +56,5 @@ public class ModuleManager {
                     return setting;
                 })
                 .collect(Collectors.toList()));
-
     }
 }
