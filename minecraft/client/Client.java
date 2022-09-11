@@ -45,12 +45,12 @@ public class Client {
             moduleManager.init();
             eventManager.registerSubscription(commandManager);
 
-            configManager.save("test");
 
             fileHandlers.add(configManager);
 
             //keep this at the end
             fileHandlers.forEach(FileHandler::onStartup);
+            configManager.save("test");
             Runtime.getRuntime().addShutdownHook(new Thread(() -> fileHandlers.forEach(FileHandler::onShutdown)));
 
         } catch (Exception exception) {
