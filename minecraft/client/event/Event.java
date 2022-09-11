@@ -1,6 +1,6 @@
 package client.event;
 
 public abstract class Event {
-    private boolean cancelled = false;
-    private EventType type;
+    protected boolean cancelled = false;
+    protected EventType type;
 }
