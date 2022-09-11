@@ -73,4 +73,12 @@ public class Client {
     public String getClientName() {
         return this.clientName;
     }
+
+    public ConfigManager getConfigManager() {
+        return this.configManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return this.commandManager;
+    }
 }

@@ -33,4 +33,10 @@ public abstract class Setting<T> {
     public String getName() {
         return this.name;
     }
+
+    public boolean isVisible() {
+        if(visibilitySupplier == null)
+            return true;
+        return visibilitySupplier.get();
+    }
 }

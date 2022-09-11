@@ -18,13 +18,13 @@ public class BindCommand extends Command {
 
     @Override
     protected void run(String[] args) {
-        if (args.length != 3) return;
+        if (args.length != 2) return;
         for (Module module : Client.INSTANCE.getModuleManager().getModules()) {
-            if (!module.getName().equalsIgnoreCase(args[1])) continue;
-            int keybind = Keyboard.getKeyIndex(args[2].toUpperCase());
+            if (!module.getName().equalsIgnoreCase(args[0])) continue;
+            int keybind = Keyboard.getKeyIndex(args[1].toUpperCase());
 
-            module.setKeybind(keybind);
-            ClientUtil.chatMsg("set keybind to " + keybind);
+            module.bindTo(keybind);
+            ClientUtil.chatMsg("set keybind to " + Keyboard.getKeyName(keybind));
             break;
         }
     }

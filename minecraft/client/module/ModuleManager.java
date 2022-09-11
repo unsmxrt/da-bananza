@@ -48,8 +48,6 @@ public class ModuleManager {
 
         moduleHashmap.put(moduleClass, modInst);
 
-        Client.INSTANCE.getEventManager().registerSubscription(modInst);
-        Client.INSTANCE.getEventManager().suspendSubscription(modInst);
         addFields(moduleClass, modInst);
     }
 

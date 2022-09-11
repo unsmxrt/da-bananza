@@ -1,6 +1,8 @@
 package client.command;
 
+import client.Client;
 import client.command.impl.BindCommand;
+import client.command.impl.ConfigCommand;
 import client.command.impl.SettingCommand;
 import client.command.impl.ToggleCommand;
 import client.event.Subscriber;
@@ -17,6 +19,7 @@ public class CommandManager {
         commands.add(new BindCommand());
         commands.add(new SettingCommand());
         commands.add(new ToggleCommand());
+        commands.add(new ConfigCommand());
     }
 
     @Subscriber
@@ -28,7 +31,6 @@ public class CommandManager {
 
             if(e.message.toLowerCase().startsWith(first.toLowerCase()))
                 command.run(e.message.substring(Math.min(e.message.length(), first.length() + 1)).split(" "));
-            break;
         }
         e.cancel();
     }

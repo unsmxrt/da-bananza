@@ -63,6 +63,23 @@ public class ConfigManager implements FileHandler {
         return true;
     }
 
+    public void delete(Config config) {
+        final File newFile = new File(configDir, config.getName() + ".json");
+        newFile.delete();
+        configs.remove(config);
+    }
+
+    public void delete(String name) {
+        final File newFile = new File(configDir, name + ".json");
+        newFile.delete();
+        configs.removeIf((conf) -> conf.getName().equals(name));
+    }
+
+    public void refresh() {
+        configs.clear();
+        onStartup();
+    }
+
     public boolean save(String name) {
         if(configs.stream().filter(config -> config.getName().equalsIgnoreCase(name)).findFirst().orElse(null) != null) {
             return false; //todo print that this config already exists
@@ -84,4 +101,7 @@ public class ConfigManager implements FileHandler {
         return true;
     }
 
+    public List<Config> getConfigs() {
+        return this.configs;
+    }
 }

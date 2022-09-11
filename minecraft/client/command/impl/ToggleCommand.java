@@ -12,10 +12,10 @@ public class ToggleCommand extends Command {
 
     @Override
     protected void run(String[] args) {
-        if (args.length != 2) return;
+        if (args.length != 1) return;
 
         for (Module module : Client.INSTANCE.getModuleManager().getModules()) {
-            if (!module.getName().equalsIgnoreCase(args[1])) continue;
+            if (!module.getName().equalsIgnoreCase(args[0])) continue;
             module.toggle();
             break;
         }
