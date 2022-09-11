@@ -14,6 +14,10 @@ public class Client {
     }
 
     public void start() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        moduleManager = new ModuleManager();
+        this.moduleManager = new ModuleManager();
+    }
+
+    public ModuleManager getModuleManager() {
+        return this.moduleManager;
     }
 }

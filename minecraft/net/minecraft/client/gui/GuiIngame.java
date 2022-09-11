@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import client.event.impl.Render2DEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -320,6 +321,8 @@ public class GuiIngame extends Gui
         {
             this.renderScoreboard(scoreobjective1, scaledresolution);
         }
+
+        final Render2DEvent event = new Render2DEvent(partialTicks, scaledresolution);
 
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
