@@ -1,5 +1,6 @@
 package client.command;
 
+import client.Client;
 import client.command.impl.BindCommand;
 import client.command.impl.SettingCommand;
 import client.command.impl.ToggleCommand;
@@ -14,6 +15,7 @@ public class CommandManager {
     public String prefix = ".";
 
     public CommandManager() {
+        Client.INSTANCE.getEventManager().registerSubscription(this);
         commands.add(new BindCommand());
         commands.add(new SettingCommand());
         commands.add(new ToggleCommand());
@@ -24,8 +26,8 @@ public class CommandManager {
         if (!e.message.startsWith(prefix)) return;
 
         for (Command command : commands) {
-            if (!e.message.toLowerCase().startsWith(prefix + command.name)) return;
-            command.run(e.message.split("\\+s"));
+            if (!e.message.toLowerCase().startsWith(prefix + command.name)) continue;
+            command.run(e.message.split(" "));
             break;
         }
         e.cancel();

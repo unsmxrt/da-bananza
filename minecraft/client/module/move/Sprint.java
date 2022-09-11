@@ -6,7 +6,7 @@ import client.module.Category;
 import client.module.Module;
 
 public class Sprint extends Module {
-    protected Sprint() {
+    public Sprint() {
         super("Sprint", Category.MOVE);
     }
 

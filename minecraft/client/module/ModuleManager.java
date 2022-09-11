@@ -4,6 +4,7 @@ import client.Client;
 import client.event.Event;
 import client.event.Subscriber;
 import client.event.impl.KeyEvent;
+import client.module.move.Sprint;
 import client.module.visual.HUD;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
@@ -24,10 +25,18 @@ public class ModuleManager {
 
     public void init() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         initModule(HUD.class);
+        initModule(Sprint.class);
     }
 
     public <T> T getModule(Class<? extends Module> moduleClass) {
         return (T) moduleHashmap.get(moduleClass);
+    }
+
+    public <T> T getModuleByName(String name) {
+        for (Module module : moduleHashmap.values()) {
+            if (module.getName().equalsIgnoreCase(name)) return (T) module;
+        }
+        return null;
     }
 
     public Collection<Module> getModules() {
@@ -40,6 +49,7 @@ public class ModuleManager {
         moduleHashmap.put(moduleClass, modInst);
 
         Client.INSTANCE.getEventManager().registerSubscription(modInst);
+        Client.INSTANCE.getEventManager().suspendSubscription(modInst);
         addFields(moduleClass, modInst);
     }
 

@@ -59,7 +59,8 @@ public class EventManager {
         listeners.computeIfPresent(event.getClass(), (type, subs) -> {
             subs.forEach(sub -> {
                 try {
-                    sub.getMethod().invoke(sub.getMethodOwner(), event);
+                    if (sub.isActive())
+                        sub.getMethod().invoke(sub.getMethodOwner(), event);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
