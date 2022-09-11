@@ -1,24 +1,16 @@
 package client.module.move;
 
+import client.event.Subscriber;
 import client.event.impl.UpdatePlayerEvent;
 import client.module.Category;
 import client.module.Module;
-import client.setting.BooleanSetting;
-import client.util.ClientUtil;
 
 public class Sprint extends Module {
-
-    private final BooleanSetting test = new BooleanSetting("idfk", false);
-
-    public Sprint() {
+    protected Sprint() {
         super("Sprint", Category.MOVE);
     }
 
-    @Override
-    protected void onEnable() {
-        ClientUtil.chatMsg("size " + getSettings().size());
-    }
-
+    @Subscriber
     public void onUpdate(UpdatePlayerEvent e) {
         if (e.isPost()) return;
         if (mc.thePlayer.isCollidedHorizontally) return;

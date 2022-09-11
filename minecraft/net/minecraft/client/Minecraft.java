@@ -1,6 +1,7 @@
 package net.minecraft.client;
 
 import client.Client;
+import client.event.impl.KeyEvent;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1920,6 +1921,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     }
                     else
                     {
+                        final KeyEvent event = new KeyEvent(k);
+                        Client.INSTANCE.getEventManager().fire(event);
                         if (k == 1)
                         {
                             this.displayInGameMenu();

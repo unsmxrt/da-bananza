@@ -1,6 +1,8 @@
 package net.minecraft.client.entity;
 
+import client.Client;
 import client.event.EventType;
+import client.event.impl.ChatEvent;
 import client.event.impl.UpdatePlayerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -232,6 +234,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                     this.onGround,
                     EventType.PRE
             );
+            Client.INSTANCE.getEventManager().fire(event);
 
             double d0 = event.x - this.lastReportedPosX;
             double d1 = event.y - this.lastReportedPosY;
@@ -282,6 +285,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.lastReportedPitch = event.pitch;
             }
             event.setType(EventType.POST);
+            Client.INSTANCE.getEventManager().fire(event);
         }
     }
 
@@ -307,6 +311,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
+        final ChatEvent event = new ChatEvent(message);
+        Client.INSTANCE.getEventManager().fire(event);
+
+        if (event.isCancelled()) return;
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }
 

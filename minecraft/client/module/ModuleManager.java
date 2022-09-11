@@ -1,6 +1,9 @@
 package client.module;
 
-import client.module.move.Sprint;
+import client.Client;
+import client.event.Event;
+import client.event.Subscriber;
+import client.event.impl.KeyEvent;
 import client.module.visual.HUD;
 import client.setting.Setting;
 import net.minecraft.client.Minecraft;
@@ -15,13 +18,15 @@ public class ModuleManager {
 
     private final HashMap<Class<? extends Module>, Module> moduleHashmap = new HashMap<>();
 
-    public ModuleManager() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        initModule(HUD.class);
-        initModule(Sprint.class);
+    public ModuleManager()  {
+
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Module> T getModule(Class<? extends Module> moduleClass) {
+    public void init() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        initModule(HUD.class);
+    }
+
+    public <T> T getModule(Class<? extends Module> moduleClass) {
         return (T) moduleHashmap.get(moduleClass);
     }
 
@@ -34,19 +39,33 @@ public class ModuleManager {
 
         moduleHashmap.put(moduleClass, modInst);
 
+        Client.INSTANCE.getEventManager().registerSubscription(modInst);
+        addFields(moduleClass, modInst);
+    }
+
+    private void addFields(Class<? extends Module> moduleClass, Module modInst) {
+        if (moduleClass.getDeclaredFields().length == 0) return;
+
         modInst.getSettings().addAll(Arrays.stream(moduleClass.getDeclaredFields())
                 .filter((field -> Setting.class.isAssignableFrom(field.getType())))
                 .map(field -> {
-                    Setting<?> setting = null;
+                    Setting setting = null;
                     try {
-                        field.setAccessible(true);
-                        setting = (Setting<?>) field.get(modInst);
+                        setting = (Setting) field.get(modInst);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
                     return setting;
                 })
                 .collect(Collectors.toList()));
+    }
 
+    @Subscriber
+    public void onKey(KeyEvent e) {
+        for (Module module : moduleHashmap.values()) {
+            if (module.getKeybind() == e.key) {
+                module.toggle();
+            }
+        }
     }
 }
