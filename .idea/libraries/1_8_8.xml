@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="1.8.8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jars/versions/1.8.8/1.8.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/jars/versions/1.8.8/1.8.8-natives" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>
